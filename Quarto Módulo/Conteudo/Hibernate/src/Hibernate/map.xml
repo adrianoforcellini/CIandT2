@@ -1,0 +1,30 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+        "-//Hibernate/Hibernate Mapping DTD//EN"
+        "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping auto-import="true">
+    <class name="Hibernate.Venda" schema="venda"
+           table="venda" dynamic-update="true">
+        <id name="id" type="integer">
+            <generator class="sequence">
+                <param name="sequence">venda.venda_id_seq</param>
+            </generator>
+        </id>
+        <property name="data" type="date" column="data" />
+        <property name="observacao" type="string" column="observacao" />
+
+        <many-to-one name="cliente" class="br.com.meuprojeto.bean.Cliente"
+                     column="id_cliente" cascade="none" outer-join="false" />
+        <many-to-one name="atendente" class="br.com.meuprojeto.bean.Atendente"
+                     column="id_atendente" cascade="none" outer-join="false" />
+        <many-to-one name="situacao" class="br.com.meuprojeto.bean.Situacao"
+                     column="id_situacao" cascade="none" outer-join="false" />
+
+        <set name="itens" table="venda.item_venda" cascade="all"
+             outer-join="true" fetch="subselect" >
+            <key column="id_venda" />
+            <one-to-many class="br.com.meuprojeto.bean.ItemVenda" />
+        </set	>
+    </class>
+</hibernate-mapping>
